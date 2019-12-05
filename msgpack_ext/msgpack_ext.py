@@ -10,7 +10,7 @@ def unpack_date(packed):
     Unpacks a UTC date packed as `year` (big endian, 16-bit unsigned integer),
     `month` (1 byte), and `day` (1 byte) into a `datetime.date`.
     """
-    (year, month, day) = struct.unpack(">HBB", packed)
+    (year, month, day) = struct.unpack("!HBB", packed)
     return datetime.date(year, month, day)
 
 
@@ -21,10 +21,10 @@ def unpack_datetime(packed):
     and `seconds_from_midnight` (16-bit unsigned integer) and returns it as a
     `datetime.datetime` (with `tzinfo = None`, once again, assume UTC).
     """
-    (year, month, day, seconds_from_midnight) = struct.unpack(">HBBH", packed)
-    (hour, rem) = divmod(seconds_from_midnight, 3600)
-    (minute, second) = divmod(rem, 60)
-    return datetime.datetime(year, month, day, hour, minute, second)
+    date = unpack_date(packed[0:4])
+    (seconds_from_midnight,) = struct.unpack("!H", packed[4:])
+    print(f"seconds_from_midnight => {seconds_from_midnight}")
+    return datetime.datetime.combine(date, datetime.time.min) + datetime.timedelta(seconds=seconds_from_midnight)
 
 
 def ext_hook(code, data):
