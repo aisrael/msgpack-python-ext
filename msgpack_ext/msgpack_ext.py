@@ -23,7 +23,6 @@ def unpack_datetime(packed):
     """
     date = unpack_date(packed[0:4])
     (seconds_from_midnight,) = struct.unpack("!H", packed[4:])
-    print(f"seconds_from_midnight => {seconds_from_midnight}")
     return datetime.datetime.combine(date, datetime.time.min) + datetime.timedelta(seconds=seconds_from_midnight)
 
 
