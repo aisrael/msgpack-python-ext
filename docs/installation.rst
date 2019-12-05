@@ -12,7 +12,7 @@ To install MsgPack Python Ext, run this command in your terminal:
 
 .. code-block:: console
 
-    $ pip install msgpack_python_ext
+    $ pip install msgpack-python-ext
 
 This is the preferred method to install MsgPack Python Ext, as it will always install the most recent stable release.
 
@@ -32,13 +32,13 @@ You can either clone the public repository:
 
 .. code-block:: console
 
-    $ git clone git://github.com/aisrael/msgpack_python_ext
+    $ git clone git://github.com/aisrael/msgpack-python-ext
 
 Or download the `tarball`_:
 
 .. code-block:: console
 
-    $ curl -OJL https://github.com/aisrael/msgpack_python_ext/tarball/master
+    $ curl -OJL https://github.com/aisrael/msgpack-python-ext/tarball/master
 
 Once you have a copy of the source, you can install it with:
 
@@ -47,5 +47,5 @@ Once you have a copy of the source, you can install it with:
     $ python setup.py install
 
 
-.. _Github repo: https://github.com/aisrael/msgpack_python_ext
-.. _tarball: https://github.com/aisrael/msgpack_python_ext/tarball/master
+.. _Github repo: https://github.com/aisrael/msgpack-python-ext
+.. _tarball: https://github.com/aisrael/msgpack-python-ext/tarball/master

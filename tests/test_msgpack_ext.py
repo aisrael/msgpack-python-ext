@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 
-"""Tests for `msgpack_python_ext` package."""
+"""Tests for `msgpack_ext` package."""
 
 import pytest
 
 
-from msgpack_python_ext import msgpack_python_ext
+from msgpack_ext import msgpack_ext
 
 
 @pytest.fixture

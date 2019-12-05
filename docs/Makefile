@@ -4,7 +4,7 @@
 # You can set these variables from the command line.
 SPHINXOPTS    =
 SPHINXBUILD   = python -msphinx
-SPHINXPROJ    = msgpack_python_ext
+SPHINXPROJ    = msgpack-python-ext
 SOURCEDIR     = .
 BUILDDIR      = _build
 

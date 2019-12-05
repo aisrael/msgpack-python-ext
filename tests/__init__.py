@@ -1,1 +1,1 @@
-"""Unit test package for msgpack_python_ext."""
+"""Unit test package for msgpack_ext."""

@@ -9,7 +9,7 @@ if "%SPHINXBUILD%" == "" (
 )
 set SOURCEDIR=.
 set BUILDDIR=_build
-set SPHINXPROJ=msgpack_python_ext
+set SPHINXPROJ=msgpack-python-ext
 
 if "%1" == "" goto help
 
