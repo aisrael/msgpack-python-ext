@@ -2,7 +2,7 @@
 
 __author__ = """Alistair A. Israel"""
 __email__ = 'aisrael@gmail.com'
-__version__ = '0.1.0'
+__version__ = '0.2.0'
 
 import msgpack as _msgpack
 from msgpack_ext.msgpack_ext import default, ext_hook, EXT_CODE_DATE, EXT_CODE_DATETIME

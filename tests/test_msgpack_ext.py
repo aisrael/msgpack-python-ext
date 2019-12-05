@@ -29,14 +29,14 @@ def test_pack_datetime():
     Test for msgpack_ext.pack_datetime
     """
     dt = datetime.datetime(1879, 3, 14, 11, 30, 00)
-    assert b'\x07W\x03\x0e\xa1\xb8' == msgpack_ext.pack_datetime(dt)
+    assert b'\x07W\x03\x0e\x0b\x1e\x00' == msgpack_ext.pack_datetime(dt)
 
 
 def test_unpack_datetime():
     """
     Test for msgpack_ext.unpack_datetime
     """
-    dt = msgpack_ext.unpack_datetime(b''.fromhex("0757030EA1B8"))
+    dt = msgpack_ext.unpack_datetime(b''.fromhex("0757030E0B1E00"))
     assert datetime.datetime(1879, 3, 14, 11, 30, 00) == dt
 
 
@@ -47,7 +47,8 @@ def test_packb():
     date = datetime.date(2008, 8, 16)
     assert b'\xd6e\x07\xd8\x08\x10' == packb(date)
     dt = datetime.datetime(1879, 3, 14, 11, 30, 00)
-    assert b'\xc7\x06f\x07W\x03\x0e\xa1\xb8' == packb(dt)
+    assert b'\xc7\x07f\x07W\x03\x0e\x0b\x1e\x00' == packb(dt)
+    assert b'\xc7\x07f\x083\x0c\x1f\x17;;' == packb(datetime.datetime(2099, 12, 31, 23, 59, 59))
 
 
 def test_unpackb():
@@ -56,5 +57,6 @@ def test_unpackb():
     """
     date = unpackb(b''.fromhex("D66507D80810"))
     assert datetime.date(2008, 8, 16) == date
-    dt = unpackb(b''.fromhex("C706660757030EA1B8"))
+    dt = unpackb(b''.fromhex("C707660757030E0B1E00"))
     assert datetime.datetime(1879, 3, 14, 11, 30, 00) == dt
+    assert datetime.datetime(2099, 12, 31, 23, 59, 59) == unpackb(b'\xc7\x07f\x083\x0c\x1f\x17;;')

@@ -34,7 +34,7 @@ date = msgpack_ext.unpackb(packed_date)
 assert datetime.date(2008, 8, 16) == date
 
 packed_datetime = msgpack_ext.packb(datetime.datetime(1879, 3, 14, 11, 30, 00))
-assert b'\xc7\x06f\x07W\x03\x0e\xa1\xb8' == packed_datetime
+assert b'\xc7\x07f\x07W\x03\x0e\x0b\x1e\x00' == packed_datetime
 
 dt = msgpack_ext.unpackb(packed_datetime)
 assert datetime.datetime(1879, 3, 14, 11, 30, 00) == dt
@@ -49,13 +49,13 @@ For all dates, times, and timestamps, assume UTC from the sender.
 Dates are packed/unpacked using the Ext type with code `101` using the following format:
 
 ```
-| year (uint64) | month (uint8) | day (uint8) |
+| year (uint16) | month (uint8) | day (uint8) |
 ```
 
 DateTimes are Dates are packed/unpacked using the Ext type with code `102` using the following format:
 
 ```
-| year (uint64) | month (uint8) | day (uint8) | seconds_from_midnight (uint32) |
+| year (uint16) | month (uint8) | day (uint8) | hour (uint8) | minute (uint8) | second (uint8) |
 ```
 
 ### Credits
