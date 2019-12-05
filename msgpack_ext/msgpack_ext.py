@@ -1,8 +1,20 @@
 """Main module."""
 
 import datetime
-import msgpack
 import struct
+
+from msgpack import ExtType
+
+EXT_CODE_DATE = 101
+EXT_CODE_DATETIME = 102
+
+
+def pack_date(date):
+    """
+    Packs a date (assumed to be UTC) as a struct with of 16-bit, unsigned `year` (big endian),
+    1 byte `month`, and 1 byte `day`.
+    """
+    return struct.pack("!HBB", date.year, date.month, date.day)
 
 
 def unpack_date(packed):
@@ -12,6 +24,17 @@ def unpack_date(packed):
     """
     (year, month, day) = struct.unpack("!HBB", packed)
     return datetime.date(year, month, day)
+
+
+def pack_datetime(dt):
+    """
+    Packs a datetime (assumed to be UTC) as a struct with of 16-bit, unsigned `year`
+    (big endian), 1 byte `month`, and 1 byte `day`, and 16-bit unsigned `seconds_from_midnight`
+    (big endian).
+    """
+    midnight = datetime.datetime.combine(dt, datetime.time.min)
+    delta = dt - midnight
+    return struct.pack("!HBBH", dt.year, dt.month, dt.day, delta.seconds)
 
 
 def unpack_datetime(packed):
@@ -26,10 +49,19 @@ def unpack_datetime(packed):
     return datetime.datetime.combine(date, datetime.time.min) + datetime.timedelta(seconds=seconds_from_midnight)
 
 
+def default(obj):
+    if isinstance(obj, datetime.datetime):
+        return ExtType(EXT_CODE_DATETIME, pack_datetime(obj))
+    elif isinstance(obj, datetime.date):
+        return ExtType(EXT_CODE_DATE, pack_date(obj))
+    else:
+        raise TypeError("Unknown type: %r" % (obj,))
+
+
 def ext_hook(code, data):
-    if code == 101:
+    if code == EXT_CODE_DATE:
         return unpack_date(data)
-    if code == 102:
+    if code == EXT_CODE_DATETIME:
         return unpack_datetime(data)
     if code == -1:
         if len(data) == 4:
@@ -46,4 +78,4 @@ def ext_hook(code, data):
 
         return datetime.datetime.utcfromtimestamp(secs + nsecs / 1e9)
     # else try to return the original code and data as an ExtType
-    return msgpack.ExtType(code, data)
+    return ExtType(code, data)

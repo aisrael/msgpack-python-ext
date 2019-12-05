@@ -4,15 +4,16 @@ __author__ = """Alistair A. Israel"""
 __email__ = 'aisrael@gmail.com'
 __version__ = '0.1.0'
 
-import msgpack
-from msgpack_ext.msgpack_ext import ext_hook
+import msgpack as _msgpack
+from msgpack_ext.msgpack_ext import default, ext_hook, EXT_CODE_DATE, EXT_CODE_DATETIME
 
 
 def packb(o, **kwargs):
     """
     Pack object `o` and return packed bytes
     """
-    return msgpack.packb(o, **kwargs)
+    kwargs['default'] = default
+    return _msgpack.packb(o, **kwargs)
 
 
 def unpackb(packed, **kwargs):
@@ -22,4 +23,4 @@ def unpackb(packed, **kwargs):
     See `msgpack.unpackb` for details.
     """
     kwargs['ext_hook'] = ext_hook
-    return msgpack.unpackb(packed, **kwargs)
+    return _msgpack.unpackb(packed, **kwargs)

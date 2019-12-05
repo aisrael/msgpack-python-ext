@@ -21,11 +21,23 @@ Until this project is published on PyPI, simply add the following to your `requi
 git+https://github.com/aisrael/msgpack-python-ext
 ```
 
-Then, instead of using `msgpack.unpackb` you would use `msgpack_ext.unpackb` as follows:
+Then, instead of using `msgpack.packb`/`msgpack.unpackb` directly, you would use `msgpack_ext.packb`/`msgpack_ext.unpackb` as follows:
 
 ```
-date = msgpack_ext.unpackb(b''.fromhex("D66507E30C04"), raw=False)
-assert(datetime.date(2019, 12, 4) == date)
+import datetime
+import msgpack_ext
+
+packed_date = msgpack_ext.packb(datetime.date(2008, 8, 16))
+assert b'\xd6e\x07\xd8\x08\x10' == packed_date
+
+date = msgpack_ext.unpackb(packed_date)
+assert datetime.date(2008, 8, 16) == date
+
+packed_datetime = msgpack_ext.packb(datetime.datetime(1879, 3, 14, 11, 30, 00))
+assert b'\xc7\x06f\x07W\x03\x0e\xa1\xb8' == packed_datetime
+
+dt = msgpack_ext.unpackb(packed_datetime)
+assert datetime.datetime(1879, 3, 14, 11, 30, 00) == dt
 ```
 
 `msgpack_ext.unpackb` adds the `ext_hook = msgpack_ext.msgpack_ext.ext_hook` keyword option automatically to provide an `ext_hook` that can recognize and succesfully unpack date, datetime, and the MessagePack Timestamp Ext formats.
